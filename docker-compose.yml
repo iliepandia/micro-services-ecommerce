@@ -61,6 +61,10 @@ services:
     build: ./order-service
     container_name: order-service
     restart: always
+    ports:
+      - 9193:8000
+    volumes:
+      - ./product-service/source:/app
     depends_on:
       - order-db
     environment:
@@ -78,8 +82,20 @@ services:
     build: ./payment-service
     container_name: payment-service
     restart: always
+    ports:
+      - 9194:8000
+    volumes:
+      - ./product-service/source:/app
     depends_on:
       - payment-db
+    environment:
+      - APP_ENV=production
+      - DB_CONNECTION=mysql
+      - DB_HOST=payment-db
+      - DB_DATABASE=payment_db
+      - DB_USERNAME=root
+      - DB_PASSWORD=root
+      - DB_PORT=3306
     networks:
       - backend
 
