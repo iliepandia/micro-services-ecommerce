@@ -64,7 +64,7 @@ services:
     ports:
       - 9193:8000
     volumes:
-      - ./product-service/source:/app
+      - ./order-service/source:/app
     depends_on:
       - order-db
     environment:
@@ -85,7 +85,7 @@ services:
     ports:
       - 9194:8000
     volumes:
-      - ./product-service/source:/app
+      - ./payment-service/source:/app
     depends_on:
       - payment-db
     environment:
