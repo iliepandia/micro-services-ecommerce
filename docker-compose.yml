@@ -1,0 +1,120 @@
+services:
+  api-gateway:
+    image: nginx:latest
+    container_name: api-gateway
+    ports:
+      - ${API_GATEWAY_PORT:-80}:80
+    volumes:
+      - ./api-gateway/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - user-service
+      - product-service
+#      - order-service
+#      - payment-service
+    networks:
+      - backend
+
+  user-service:
+    build:
+      context: ./user-service
+    container_name: user-service
+    ports:
+      - 9191:8000
+    restart: always
+    volumes:
+      - ./user-service/source:/app
+    depends_on:
+      - user-db
+    environment:
+      - APP_ENV=production
+      - DB_CONNECTION=mysql
+      - DB_HOST=user-db
+      - DB_DATABASE=user_db
+      - DB_USERNAME=root
+      - DB_PASSWORD=root
+      - DB_PORT=3306
+    networks:
+      - backend
+
+  product-service:
+    build: ./product-service
+    ports:
+      - 9192:8000
+    container_name: product-service
+    restart: always
+    volumes:
+      - ./product-service/source:/app
+    depends_on:
+      - product-db
+    environment:
+      - APP_ENV=production
+      - DB_CONNECTION=mysql
+      - DB_HOST=product-db
+      - DB_DATABASE=product_db
+      - DB_USERNAME=root
+      - DB_PASSWORD=root
+      - DB_PORT=3306
+    networks:
+      - backend
+
+  order-service:
+    build: ./order-service
+    container_name: order-service
+    restart: always
+    depends_on:
+      - order-db
+    networks:
+      - backend
+
+  payment-service:
+    build: ./payment-service
+    container_name: payment-service
+    restart: always
+    depends_on:
+      - payment-db
+    networks:
+      - backend
+
+  user-db:
+    image: mysql:5.7
+    container_name: user-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: user_db
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+      - backend
+
+  product-db:
+    image: mysql:5.7
+    container_name: product-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: product_db
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+      - backend
+
+  order-db:
+    image: mysql:5.7
+    container_name: order-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: order_db
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+      - backend
+
+  payment-db:
+    image: mysql:5.7
+    container_name: payment-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: payment_db
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
