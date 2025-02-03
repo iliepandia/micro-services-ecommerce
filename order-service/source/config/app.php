@@ -95,6 +95,8 @@ return [
     |
     */
 
+    'api_gateway_secret' => env('API_GATEWAY_KEY'),
+
     'cipher' => 'AES-256-CBC',
 
     'key' => env('APP_KEY'),
