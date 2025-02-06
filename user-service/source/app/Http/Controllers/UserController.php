@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\JWT;
 
 class UserController extends Controller
 {
@@ -24,6 +25,30 @@ class UserController extends Controller
             return $this->respondWithToken($token);
         }else{
             return response()->json(['error' => "Could not authenticate you"], 403 );
+        }
+    }
+
+    /**
+     * Will validate if a token is good to use and return the payload if its
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function validateToken(Request $request)
+    {
+        $request->validate([
+            'token' => 'required'
+        ]);
+
+        $jwt = app(JWT::class );
+        $token = $request->get('token');
+        $jwt->setToken($token);
+
+        try{
+            $payload = $jwt->checkOrFail();
+            return response()->json(['status' => 'success', 'payload' => $payload]);
+        }catch (JWTException $je){
+            return response()->json(['status' => 'error', 'message' => $je->getMessage()]);
+
         }
     }
 

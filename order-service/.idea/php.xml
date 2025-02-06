@@ -350,6 +350,7 @@
       <path value="$PROJECT_DIR$/../payment-service/source/vendor/laravel/prompts" />
       <path value="$PROJECT_DIR$/../payment-service/source/vendor/laravel/serializable-closure" />
       <path value="$PROJECT_DIR$/../payment-service/source/vendor/composer" />
+      <path value="$PROJECT_DIR$/source/vendor/_laravel_idea" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2" />

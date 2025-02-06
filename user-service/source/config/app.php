@@ -2,6 +2,9 @@
 
 return [
 
+    'api_gateway_secret' => env('API_GATEWAY_KEY'),
+    'api_inside_docker_secret' => env('API_INSIDER_SECRET_KEY'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -13,7 +16,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'User Service'),
 
     /*
     |--------------------------------------------------------------------------
@@ -94,8 +97,6 @@ return [
     | are secure. You should do this prior to deploying the application.
     |
     */
-
-    'api_gateway_secret' => env('API_GATEWAY_KEY'),
 
     'cipher' => 'AES-256-CBC',
 
