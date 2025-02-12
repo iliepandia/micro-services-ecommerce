@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware([InternalServiceAuth::class . ":api_gateway_secret",RequireJsonHeaders::class])->group(function(){
     Route::post("login", [\App\Http\Controllers\UserController::class, 'login']);
 
+    Route::post("register", [\App\Http\Controllers\UserController::class, 'register']);
+
 });
 
 

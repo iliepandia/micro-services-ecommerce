@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\JWT;
@@ -13,18 +14,43 @@ class UserController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse|string[]
      */
-    public function login( Request $request )
+    public function login(Request $request)
     {
         $credentials = $request->validate([
-            'email' => ['required','email'],
+            'email' => ['required', 'email'],
             'password' => ['required']
         ]);
 
         $token = auth()->attempt($credentials);
-        if( $token ){
+        if ($token) {
             return $this->respondWithToken($token);
-        }else{
-            return response()->json(['error' => "Could not authenticate you"], 403 );
+        } else {
+            return response()->json(['error' => "Could not authenticate you"], 403);
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|string[]
+     */
+    public function register(Request $request)
+    {
+        $request->validate([
+            'email' => ['required', 'email', 'unique:users'],
+            'name' => ['required'],
+            'password' => ['required']
+        ]);
+
+        $user = User::create([
+            'email' => $request->email,
+            'password' => $request->password,
+            'name' => $request->name,
+        ]);
+
+        if ($user) {
+            return response()->json(['status' => "OK"]);
+        } else {
+            return response()->json(['error' => "Could not create the user"], 401);
         }
     }
 
@@ -39,14 +65,14 @@ class UserController extends Controller
             'token' => 'required'
         ]);
 
-        $jwt = app(JWT::class );
+        $jwt = app(JWT::class);
         $token = $request->get('token');
         $jwt->setToken($token);
 
-        try{
+        try {
             $payload = $jwt->checkOrFail();
             return response()->json(['status' => 'success', 'payload' => $payload]);
-        }catch (JWTException $je){
+        } catch (JWTException $je) {
             return response()->json(['status' => 'error', 'message' => $je->getMessage()]);
 
         }
@@ -55,7 +81,7 @@ class UserController extends Controller
     /**
      * Get the token array structure.
      *
-     * @param  string $token
+     * @param string $token
      *
      * @return \Illuminate\Http\JsonResponse
      */
