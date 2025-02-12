@@ -14,6 +14,7 @@ Route::middleware([
     RequireJsonHeaders::class])->group(function () {
 
     Route::middleware([RequireUserRole::class . ":customer"])->group(function () {
-        Route::get("list", [ProductController::class, 'list']);
+        Route::get("list", [ProductController::class, 'list'])->name('product.list');
+        Route::get("/{id}", [ProductController::class, 'product'])->name('product.get');
     });
 });

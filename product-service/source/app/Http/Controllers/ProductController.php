@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\JWT;
 
 class ProductController extends Controller
 {
     public function list (Request $request) {
-        return response()->json([
-            [
-                'id' => 1,
-                'name' => 'Product 1',
-                'description' => 'Product description 1'
-            ],
-        ]);
+        return Product::query()->paginate(10);
+    }
+
+    public function product( int $id )
+    {
+        return Product::find($id);
     }
 }
