@@ -2,16 +2,16 @@
 
 Built with micro-services:
 
-- user service - handles login and token validation
-- product service - handle product listing
-- order service - processes orders
-- payment service - processes payments
-- api-gateway service - public facing service that will route all the requests
+- `user service` - handles login and token validation
+- `product service` - handle product listing
+- `order service` - processes orders
+- `payment service` - processes payments
+- `api-gateway service` - public facing service that will route all the requests
 
 
 ## Authentication and Authorization 
 
-All the services are stateless and they accept a JWT token. 
+All the services are stateless, and they accept a JWT token. 
 
 Before doing any work, they will ask the user-service to validate the JWT token
 and extract the payload: user, user roles and others. 
@@ -27,6 +27,9 @@ The api-gateway authenticates itself with a secret key passed as a header.
 The services authenticate to each other also with a secret key that is passed as a 
 header. 
 
+Some of the endpoints are exposed to the public via the API gateway and others
+are only to be used inside the micro-services network.
+
 ## Why Micro Services
 
 They are stateless, so they are easy to test.
@@ -39,3 +42,4 @@ independently.
 
 - Monitoring the system
 - When something goes wrong - how do we find out why? and where?
+- Generating URLs from inside the service
