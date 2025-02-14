@@ -18,3 +18,12 @@ Route::middleware([
         Route::get("/{id}", [ProductController::class, 'product'])->name('product.get');
     });
 });
+
+
+//These are meant to be called only from inside the docker network
+Route::middleware([
+    InternalServiceAuth::class . ":api_inside_docker_secret",
+    RequireJsonHeaders::class])
+    ->prefix("internal")->group(function(){
+        Route::get("/{id}", [ProductController::class, 'product'])->name('product.get');
+});

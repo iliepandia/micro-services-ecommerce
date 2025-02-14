@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Services\ProductService;
+use Closure;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -20,9 +23,19 @@ class OrderController extends Controller
     }
 
     public function create(Request $request) : Order{
+        $productService = new ProductService();
+
         $request->validate([
             "order_lines" => "required|array|min:1",
-            "order_lines.*.product_id" => "required|numeric",
+            "order_lines.*.product_id" => ["required","numeric",function($attribute, $value, Closure $fail) use ($productService){
+                try{
+                    if(!$productService->getProduct(intval($value))){
+                        $fail("Could not validate the product id!");
+                    }
+                }catch (ModelNotFoundException $e){
+                    $fail("Could not validate the product id!");
+                }
+            }],
             "order_lines.*.quantity" => "required|numeric|min:1|max:1000",
         ]);
 

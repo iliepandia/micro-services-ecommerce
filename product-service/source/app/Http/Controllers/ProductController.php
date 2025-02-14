@@ -13,6 +13,6 @@ class ProductController extends Controller
 
     public function product( int $id )
     {
-        return Product::find($id);
+        return Product::findOrFail($id);
     }
 }
