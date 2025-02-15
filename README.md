@@ -1,6 +1,16 @@
-# Scalable, Fault Tolerant eCommere Application
+# Scalable, Fault Tolerant, Micro-Services eCommere Application
 
-Built with micro-services:
+## Intro
+
+This is a DEMO project, exploring the micro-services architecture. It is a very 
+basic application with simple auth rules. 
+
+The purpose is not as much the ecommerce side, but rather how micro-services
+interact, how authorization works, how we monitor logs, and so on.
+
+## Details
+
+Built with the following micro-services:
 
 - `user service` - handles login and token validation
 - `product service` - handle product listing
@@ -43,3 +53,4 @@ independently.
 - Monitoring the system
 - When something goes wrong - how do we find out why? and where?
 - Generating URLs from inside the service
+- Passing the authorized user securely between the services
