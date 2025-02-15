@@ -17,6 +17,9 @@ Route::middleware([
         Route::get("list", [ProductController::class, 'list'])->name('product.list');
         Route::get("/{id}", [ProductController::class, 'product'])->name('product.get');
     });
+    Route::middleware([RequireUserRole::class . ":admin"])->group(function () {
+        Route::post("/create", [ProductController::class, 'create'])->name('product.create');
+    });
 });
 
 
