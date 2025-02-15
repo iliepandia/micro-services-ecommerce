@@ -2,6 +2,9 @@
 
 return [
 
+    'api_gateway_secret' => env('API_GATEWAY_KEY'),
+    'api_inside_docker_secret' => env('API_INSIDER_SECRET_KEY'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -77,8 +80,6 @@ return [
     | set to any locale for which you plan to have translation strings.
     |
     */
-
-    'api_gateway_secret' => env('API_GATEWAY_KEY'),
 
     'locale' => env('APP_LOCALE', 'en'),
 
