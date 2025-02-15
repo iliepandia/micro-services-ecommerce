@@ -7,6 +7,7 @@ use App\Services\ProductService;
 use Closure;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
@@ -17,9 +18,12 @@ class OrderController extends Controller
     }
     public function order( Request $request, int $id )
     {
+        Log::debug("Requested order_id: {$id}", [
+            "user_id" => $request->_auth_user_id,
+        ]);
         return Order::with('orderLines')
             ->where('user_id', $request->_auth_user_id)
-            ->where('id', $id)->first();
+            ->where('id', $id)->firstOrFail();
     }
 
     public function create(Request $request) : Order{
