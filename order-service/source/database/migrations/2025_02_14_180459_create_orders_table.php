@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedTinyInteger("user_id");
+            $table->unsignedBigInteger("user_id");
             $table->enum("status", ["open","pending","completed","cancelled"]);
 
             $table->timestamps();

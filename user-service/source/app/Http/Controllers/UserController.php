@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\JWT;
 
@@ -23,6 +24,7 @@ class UserController extends Controller
 
         $token = auth()->attempt($credentials);
         if ($token) {
+            Log::info("Logged in the following user: {$request->email}");
             return $this->respondWithToken($token);
         } else {
             return response()->json(['error' => "Could not authenticate you"], 403);
@@ -64,6 +66,8 @@ class UserController extends Controller
         $request->validate([
             'token' => 'required'
         ]);
+
+        Log::debug("Token for validation: {$request->token}");
 
         $jwt = app(JWT::class);
         $token = $request->get('token');

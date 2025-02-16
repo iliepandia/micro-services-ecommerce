@@ -1,13 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="WEB_MODULE" version="4">
   <component name="NewModuleRootManager">
-    <content url="file://$MODULE_DIR$/_dev_notes" />
-    <content url="file://$MODULE_DIR$/api-gateway" />
-    <content url="file://$MODULE_DIR$/databases" />
-    <content url="file://$MODULE_DIR$/order-service" />
-    <content url="file://$MODULE_DIR$/payment-service" />
-    <content url="file://$MODULE_DIR$/product-service" />
-    <content url="file://$MODULE_DIR$/user-service" />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/order-service/source/app" isTestSource="false" packagePrefix="App\" />
+      <sourceFolder url="file://$MODULE_DIR$/order-service/source/database/factories" isTestSource="false" packagePrefix="Database\Factories\" />
+      <sourceFolder url="file://$MODULE_DIR$/order-service/source/database/seeders" isTestSource="false" packagePrefix="Database\Seeders\" />
+      <sourceFolder url="file://$MODULE_DIR$/order-service/source/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/order-service/source/tests" isTestSource="true" packagePrefix="Tests\" />
+      <sourceFolder url="file://$MODULE_DIR$/payment-service/source/app" isTestSource="false" packagePrefix="App\" />
+      <sourceFolder url="file://$MODULE_DIR$/payment-service/source/database/factories" isTestSource="false" packagePrefix="Database\Factories\" />
+      <sourceFolder url="file://$MODULE_DIR$/payment-service/source/database/seeders" isTestSource="false" packagePrefix="Database\Seeders\" />
+      <sourceFolder url="file://$MODULE_DIR$/payment-service/source/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/payment-service/source/tests" isTestSource="true" packagePrefix="Tests\" />
+      <sourceFolder url="file://$MODULE_DIR$/product-service/source/app" isTestSource="false" packagePrefix="App\" />
+      <sourceFolder url="file://$MODULE_DIR$/product-service/source/database/factories" isTestSource="false" packagePrefix="Database\Factories\" />
+      <sourceFolder url="file://$MODULE_DIR$/product-service/source/database/seeders" isTestSource="false" packagePrefix="Database\Seeders\" />
+      <sourceFolder url="file://$MODULE_DIR$/product-service/source/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/product-service/source/tests" isTestSource="true" packagePrefix="Tests\" />
+      <sourceFolder url="file://$MODULE_DIR$/user-service/source/app" isTestSource="false" packagePrefix="App\" />
+      <sourceFolder url="file://$MODULE_DIR$/user-service/source/database/factories" isTestSource="false" packagePrefix="Database\Factories\" />
+      <sourceFolder url="file://$MODULE_DIR$/user-service/source/database/seeders" isTestSource="false" packagePrefix="Database\Seeders\" />
+      <sourceFolder url="file://$MODULE_DIR$/user-service/source/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/user-service/source/tests" isTestSource="true" packagePrefix="Tests\" />
+      <excludeFolder url="file://$MODULE_DIR$/user-service/source/vendor/lcobucci/clock" />
+      <excludeFolder url="file://$MODULE_DIR$/user-service/source/vendor/lcobucci/jwt" />
+      <excludeFolder url="file://$MODULE_DIR$/user-service/source/vendor/tymon/jwt-auth" />
+    </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
