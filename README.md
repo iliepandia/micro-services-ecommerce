@@ -45,13 +45,37 @@ are only to be used inside the micro-services network.
 To monitor the system resource usage, I am using cAdvisor with a plant to then 
 use that data into a Prometheus instance.
 
+## Monitoring the Logs - Laravel Logs over ELK stack
+
+I have added the so-called ELK stack. ElasticSearch, Logstash, Kibana.
+
+- ElasticSearch will store the logs and make then searchable
+- Logstash is what laravel will use to push the logs to ElasticSearch
+- Kibana is the visualization tool to inspect those logs
+
+Tutorials that have helped:
+- [Deploying ELK inside docker](https://medium.com/@lopchannabeen138/deploying-elk-inside-docker-container-docker-compose-4a88682c7643 ) 
+  getting ElasticSearch to work inside of Docker was a bit of challenge. The configuration has to be just right!
+- [FileBeat ELK Stack](https://medium.com/@mehraien.arash/laravel-log-management-using-filebeat-elk-elastic-search-logstash-and-kibana-be7db5985bd6 )
+  interesting to understand how the services connect together  
+
+### Next steps for the logs 
+
+Look like things have evolved and you're not supposed to push logs 
+from Laravel straight into LogStash, but instead use something like Filebeat
+and offload this log delivery to yet another service. 
+
+While this adds one more service to the stack, it makes sense to use 
+to avoid any back pressure from LogStash and looks like filebeat is
+able to buffer logs, in case LogStash is not available for some reason.
+
 ## Why Micro Services
 
 They are stateless, so they are easy to test.
 
 They are decoupled. Each one service can be worked on independently, and even
 in a different language all together. And they can be scaled up and down
-independently. 
+independently.
 
 ## Challenges
 
