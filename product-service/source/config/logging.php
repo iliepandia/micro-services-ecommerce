@@ -73,6 +73,19 @@ return [
             'replace_placeholders' => true,
         ],
 
+        //TODO: apparently is better to use filebeat as a log delivery service
+        'logstash' => [
+            'driver' => 'monolog',
+            'handler' => \Monolog\Handler\SocketHandler::class,
+            'formatter' => \Monolog\Formatter\LogstashFormatter::class,
+            'formatter_with' => [
+                'applicationName' => config('app.name'),
+            ],
+            'with' => [
+                'connectionString' => "tcp://" . env("LOGSTASH_HOST", "logstash") . ":" . env("LOGSTASH_PORT", 5000)
+            ],
+        ],
+
         'slack' => [
             'driver' => 'slack',
             'url' => env('LOG_SLACK_WEBHOOK_URL'),
