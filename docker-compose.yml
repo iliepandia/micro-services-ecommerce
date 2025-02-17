@@ -1,5 +1,9 @@
 services:
   api-gateway:
+    deploy:
+      resources:
+        limits:
+          cpus: 2
     image: nginx:latest
     container_name: api-gateway
     ports:
@@ -15,14 +19,20 @@ services:
       - backend
 
   user-service:
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          cpus: 1
     build:
       context: ./user-service
-    container_name: user-service
+    #    container_name: user-service #not used when using replicas
     restart: always
     volumes:
       - ./user-service/source:/app
     depends_on:
       - user-db
+      - logstash
     environment:
       - APP_ENV=production
       - API_INSIDER_SECRET_KEY=${API_INSIDER_SECRET_KEY}
@@ -32,10 +42,15 @@ services:
       - DB_USERNAME=root
       - DB_PASSWORD=root
       - DB_PORT=3306
+      - LOG_STACK=logstash
     networks:
       - backend
 
   product-service:
+    deploy:
+      resources:
+        limits:
+          cpus: 2
     build: ./product-service
     container_name: product-service
     restart: always
@@ -53,10 +68,15 @@ services:
       - DB_USERNAME=root
       - DB_PASSWORD=root
       - DB_PORT=3306
+      - LOG_STACK=logstash
     networks:
       - backend
 
   order-service:
+    deploy:
+      resources:
+        limits:
+          cpus: 2
     build: ./order-service
     container_name: order-service
     restart: always
@@ -74,10 +94,15 @@ services:
       - DB_USERNAME=root
       - DB_PASSWORD=root
       - DB_PORT=3306
+      - LOG_STACK=logstash
     networks:
       - backend
 
   payment-service:
+    deploy:
+      resources:
+        limits:
+          cpus: 2
     build: ./payment-service
     container_name: payment-service
     restart: always
@@ -95,6 +120,7 @@ services:
       - DB_USERNAME=root
       - DB_PASSWORD=root
       - DB_PORT=3306
+      - LOG_STACK=logstash
     networks:
       - backend
 
@@ -146,6 +172,63 @@ services:
     networks:
       - backend
 
+
+  # Elastic search image for logs
+  elasticsearch:
+    image: elasticsearch:8.14.3
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - http.host=0.0.0.0
+      - transport.host=0.0.0.0
+      - xpack.security.enabled=false
+      - cluster.name=elasticsearch
+      - bootstrap.memory_lock=true
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+      - ./elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+    ports:
+      - 9200:9200
+      - 9300:9300
+    networks:
+      - backend
+
+  logstash:
+    image: logstash:8.14.3
+    container_name: logstash
+    depends_on:
+      - elasticsearch
+    volumes:
+      - ./logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - ./logstash/logstash.yml:/usr/share/logstash/config/logstash.yml
+      - ls_data:/usr/share/logstash/data
+    ports:
+      - 5000:5000 # For Laravel to send logs
+      - 9600:9600 # Monitoring port
+    networks:
+      - backend
+
+  kibana:
+    image: kibana:8.14.3
+    container_name: kibana
+    volumes:
+      - ./kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
+      - kb_data:/use/share/kibana/data
+    environment:
+      - elasticsearch.ssl.verificationMode=certificate
+    depends_on:
+      - elasticsearch
+    ports:
+      - 5601:5601
+    networks:
+      - backend
+
 networks:
   backend:
     driver: bridge
+
+
+volumes:
+  esdata:
+  ls_data:
+  kb_data:
