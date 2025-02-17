@@ -40,6 +40,11 @@ header.
 Some of the endpoints are exposed to the public via the API gateway and others
 are only to be used inside the micro-services network.
 
+## Monitoring the services 
+
+To monitor the system resource usage, I am using cAdvisor with a plant to then 
+use that data into a Prometheus instance.
+
 ## Why Micro Services
 
 They are stateless, so they are easy to test.
@@ -50,7 +55,8 @@ independently.
 
 ## Challenges
 
-- Monitoring the system
+- Monitoring the system (cAdvisor)
 - When something goes wrong - how do we find out why? and where?
+  - sent the logs into the ELK stack (ElasticSearch, Logstash and Kibana) 
 - Generating URLs from inside the service
 - Passing the authorized user securely between the services
