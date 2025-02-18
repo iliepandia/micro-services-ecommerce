@@ -8,6 +8,10 @@ basic application with simple auth rules.
 The purpose is not as much the ecommerce side, but rather how micro-services
 interact, how authorization works, how we monitor logs, and so on.
 
+The journey from monolith to micro-services
+
+![Async Demo](imgs/monolith-to-microservices.gif)
+
 ## Details
 
 Built with the following micro-services:
